@@ -557,7 +557,7 @@
             const pass = document.getElementById('prof-password').value;
             const errorMsg = document.getElementById('prof-login-error');
 
-            if (user === 'Jhon777' && pass === 'jhonbonitao') {
+            if (user === 'Jhon777' && pass === 'Jhonomelhor') {
                 errorMsg.classList.add('hidden');
                 document.getElementById('prof-login-view').classList.add('hidden');
                 document.getElementById('prof-dashboard-view').classList.remove('hidden');
