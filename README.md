@@ -88,7 +88,7 @@
                 <!-- Injetado dinamicamente -->
             </div>
 
-            <!-- Caixa de Explicação (Escondida por padrão) -->
+            <!-- Caixa de Explicação -->
             <div id="explanation-box" class="hidden mb-6 p-4 rounded-xl border transition-all">
                 <h4 id="explanation-title" class="font-bold text-sm mb-1 flex items-center gap-1.5"></h4>
                 <p id="explanation-text" class="text-sm leading-relaxed"></p>
@@ -153,20 +153,20 @@
 
             <!-- View 1: Formulário de Login do Professor -->
             <div id="prof-login-view" class="p-6 sm:p-8 space-y-4">
-                <p class="text-sm text-slate-600">Acesse com suas credenciais para visualizar as notas e nomes dos alunos registrados.</p>
+                <p class="text-sm text-slate-600">Acesse com suas credenciais para visualizar as notas dos alunos.</p>
                 
                 <form onsubmit="autenticarProfessor(event)" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nome do Professor:</label>
-                        <input type="text" id="prof-username" required placeholder="Digite seu nome"
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nome de Usuário:</label>
+                        <input type="text" id="prof-username" required placeholder="Digite seu usuário"
                             class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Senha de Acesso:</label>
-                        <input type="password" id="prof-password" required placeholder="Senha (Padrão: prof123)"
+                        <input type="password" id="prof-password" required placeholder="Digite sua senha"
                             class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
                     </div>
-                    <p id="prof-login-error" class="text-red-500 text-xs hidden">Credenciais incorretas! (Dica: Senha padrão é prof123)</p>
+                    <p id="prof-login-error" class="text-red-500 text-xs hidden">Usuário ou senha incorretos.</p>
                     
                     <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition">
                         Entrar no Painel
@@ -220,7 +220,7 @@
 
     <!-- Script de Funcionamento -->
     <script>
-        // Banço de Questões (20 Questões - Médias/Desafiadoras)
+        // Banco de Questões (20 Questões)
         const questions = [
             {
                 category: "Adição",
@@ -234,14 +234,14 @@
                 question: "Calcule: 1.000 - 467",
                 options: ["533", "543", "633", "537"],
                 answer: 0,
-                explanation: "1000 - 467 = 533. Subtraindo do milhar, obtemos 533."
+                explanation: "1000 - 467 = 533."
             },
             {
                 category: "Multiplicação",
                 question: "Qual o valor do produto de 18 x 14?",
                 options: ["242", "252", "262", "272"],
                 answer: 1,
-                explanation: "18 x 14 = 252. Podemos fazer (18 x 10 = 180) + (18 x 4 = 72) = 252."
+                explanation: "18 x 14 = 252."
             },
             {
                 category: "Elevação (Potenciação)",
@@ -276,7 +276,7 @@
                 question: "Quanto é 25 x 16?",
                 options: ["380", "400", "420", "450"],
                 answer: 1,
-                explanation: "25 x 16 = 400. Dica: 25 x 4 x 4 = 100 x 4 = 400."
+                explanation: "25 x 16 = 400."
             },
             {
                 category: "Elevação (Potenciação)",
@@ -311,7 +311,7 @@
                 question: "Quanto é 15 x 15?",
                 options: ["205", "215", "225", "235"],
                 answer: 2,
-                explanation: "15 x 15 = 225 (que também é 15²)."
+                explanation: "15 x 15 = 225."
             },
             {
                 category: "Elevação (Potenciação)",
@@ -346,7 +346,7 @@
                 question: "Qual é o valor da expressão (6 x 7) + 18?",
                 options: ["50", "60", "70", "80"],
                 answer: 1,
-                explanation: "Primeiro a multiplicação: 6 x 7 = 42. Depois a adição: 42 + 18 = 60."
+                explanation: "6 x 7 = 42; 42 + 18 = 60."
             },
             {
                 category: "Elevação (Potenciação)",
@@ -401,16 +401,13 @@
 
             const q = questions[currentQuestionIndex];
 
-            // Atualizar contadores e barra
             document.getElementById('current-q-num').textContent = currentQuestionIndex + 1;
             const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
             document.getElementById('progress-bar').style.width = `${progressPercent}%`;
 
-            // Categoria e Texto
             document.getElementById('q-category').textContent = q.category;
             document.getElementById('q-text').textContent = q.question;
 
-            // Renderizar Opções
             const container = document.getElementById('options-container');
             container.innerHTML = '';
 
@@ -426,7 +423,6 @@
                 container.appendChild(btn);
             });
 
-            // Resetar explicação e botão de ação
             document.getElementById('explanation-box').className = 'hidden mb-6 p-4 rounded-xl border transition-all';
             const btnAction = document.getElementById('btn-action');
             btnAction.disabled = true;
@@ -440,7 +436,6 @@
 
             selectedOptionIndex = index;
 
-            // Atualizar UI dos botões
             questions[currentQuestionIndex].options.forEach((_, idx) => {
                 const btn = document.getElementById(`opt-${idx}`);
                 if (idx === index) {
@@ -454,26 +449,23 @@
                 }
             });
 
-            // Habilitar Botão
             const btnAction = document.getElementById('btn-action');
             btnAction.disabled = false;
             btnAction.className = 'bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg';
         }
 
-        // Processar Clique no Botão de Ação
+        // Processar Resposta
         function processarAcao() {
             if (!isAnswered) {
-                // Confirmar Resposta
                 isAnswered = true;
                 const q = questions[currentQuestionIndex];
                 const isCorrect = selectedOptionIndex === q.answer;
 
                 if (isCorrect) score++;
 
-                // Destacar Opções
                 q.options.forEach((_, idx) => {
                     const btn = document.getElementById(`opt-${idx}`);
-                    btn.onclick = null; // desabilitar cliques
+                    btn.onclick = null;
 
                     if (idx === q.answer) {
                         btn.className = `w-full text-left p-4 rounded-xl border-2 border-green-500 bg-green-50 text-green-900 font-bold flex items-center justify-between`;
@@ -488,7 +480,6 @@
                     }
                 });
 
-                // Mostrar Caixa de Explicação
                 const expBox = document.getElementById('explanation-box');
                 const expTitle = document.getElementById('explanation-title');
                 const expText = document.getElementById('explanation-text');
@@ -504,7 +495,6 @@
                     expTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-600"></i> Resposta Incorreta!`;
                 }
 
-                // Alterar Botão para Próxima Questão
                 const btnAction = document.getElementById('btn-action');
                 if (currentQuestionIndex < questions.length - 1) {
                     btnAction.textContent = 'Próxima Questão';
@@ -512,7 +502,6 @@
                     btnAction.textContent = 'Ver Resultado Final';
                 }
             } else {
-                // Ir para a próxima questão ou finalizar
                 currentQuestionIndex++;
                 if (currentQuestionIndex < questions.length) {
                     carregarQuestao();
@@ -522,7 +511,6 @@
             }
         }
 
-        // Finalizar e Salvar Dados
         function finalizarQuiz() {
             document.getElementById('screen-quiz').classList.add('hidden');
             document.getElementById('screen-result').classList.remove('hidden');
@@ -533,7 +521,6 @@
             document.getElementById('res-score-grade').textContent = finalGrade.replace('.', ',');
             document.getElementById('res-correct-count').textContent = score;
 
-            // Salvar no Histórico Local
             salvarResultadoAluno(studentFullName, score, finalGrade);
         }
 
@@ -542,8 +529,6 @@
             document.getElementById('screen-welcome').classList.remove('hidden');
             document.getElementById('student-fullname').value = '';
         }
-
-        // --- SISTEMA DO PAINEL DO PROFESSOR & LOCALSTORAGE ---
 
         function salvarResultadoAluno(nome, acertos, nota) {
             const historico = JSON.parse(localStorage.getItem('quiz_math_results') || '[]');
@@ -568,11 +553,11 @@
 
         function autenticarProfessor(event) {
             event.preventDefault();
+            const user = document.getElementById('prof-username').value;
             const pass = document.getElementById('prof-password').value;
             const errorMsg = document.getElementById('prof-login-error');
 
-            // Senha padrão definida: prof123
-            if (pass === 'prof123') {
+            if (user === 'Jhon777' && pass === 'jhonbonitao') {
                 errorMsg.classList.add('hidden');
                 document.getElementById('prof-login-view').classList.add('hidden');
                 document.getElementById('prof-dashboard-view').classList.remove('hidden');
@@ -585,6 +570,7 @@
         function logoutProfessor() {
             document.getElementById('prof-dashboard-view').classList.add('hidden');
             document.getElementById('prof-login-view').classList.remove('hidden');
+            document.getElementById('prof-username').value = '';
             document.getElementById('prof-password').value = '';
         }
 
