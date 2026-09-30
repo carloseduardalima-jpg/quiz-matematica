@@ -96,7 +96,7 @@
 
             <!-- Ações -->
             <div class="flex justify-end">
-                <button id="btn-action" onclick="processarAcao()" disabled
+                <button id="btn-action" type="button" onclick="processarAcao()" disabled
                     class="bg-slate-300 text-slate-500 font-bold py-3 px-6 rounded-xl transition cursor-not-allowed">
                     Confirmar Resposta
                 </button>
@@ -413,7 +413,8 @@
 
             q.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
-                btn.className = `w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition flex items-center justify-between text-slate-700 font-medium`;
+                btn.type = 'button';
+                btn.className = `w-full text-left p-4 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 transition flex items-center justify-between text-slate-700 font-medium cursor-pointer`;
                 btn.onclick = () => selecionarOpcao(idx);
                 btn.id = `opt-${idx}`;
                 btn.innerHTML = `
@@ -439,11 +440,11 @@
             questions[currentQuestionIndex].options.forEach((_, idx) => {
                 const btn = document.getElementById(`opt-${idx}`);
                 if (idx === index) {
-                    btn.className = `w-full text-left p-4 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-900 font-semibold flex items-center justify-between shadow-sm`;
+                    btn.className = `w-full text-left p-4 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-900 font-semibold flex items-center justify-between shadow-sm cursor-pointer`;
                     btn.querySelector('.check-icon').className = `w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs`;
                     btn.querySelector('.check-icon').innerHTML = `<i class="fa-solid fa-check"></i>`;
                 } else {
-                    btn.className = `w-full text-left p-4 rounded-xl border border-slate-200 text-slate-700 flex items-center justify-between opacity-70`;
+                    btn.className = `w-full text-left p-4 rounded-xl border border-slate-200 text-slate-700 flex items-center justify-between opacity-70 cursor-pointer`;
                     btn.querySelector('.check-icon').className = `w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-xs`;
                     btn.querySelector('.check-icon').innerHTML = ``;
                 }
@@ -451,12 +452,14 @@
 
             const btnAction = document.getElementById('btn-action');
             btnAction.disabled = false;
-            btnAction.className = 'bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg';
+            btnAction.className = 'bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg cursor-pointer';
         }
 
-        // Processar Resposta
+        // Processar Resposta / Avançar
         function processarAcao() {
             if (!isAnswered) {
+                if (selectedOptionIndex === null) return;
+
                 isAnswered = true;
                 const q = questions[currentQuestionIndex];
                 const isCorrect = selectedOptionIndex === q.answer;
@@ -466,6 +469,7 @@
                 q.options.forEach((_, idx) => {
                     const btn = document.getElementById(`opt-${idx}`);
                     btn.onclick = null;
+                    btn.classList.remove('cursor-pointer');
 
                     if (idx === q.answer) {
                         btn.className = `w-full text-left p-4 rounded-xl border-2 border-green-500 bg-green-50 text-green-900 font-bold flex items-center justify-between`;
